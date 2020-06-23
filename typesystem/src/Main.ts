@@ -101,12 +101,71 @@ const Locals: Record<string, Point2D> = {
 console.log(Locals)
 console.log(Locals.brazil)
 
+console.log("-------------------------")
+
+
+
+class Human { a = "Foot" }
+class Car { b = "Wheels" }
+
+class Jhon extends Human {}
+class Lamborgini extends Car {}
+class Test {}
+
+const jhon = new Jhon()
+const lamborgini = new Lamborgini()
+// const test = new Test()
+
+
+type HumanOrCar<T> = T extends Human ? Human : Car
+
+let test: HumanOrCar<Human> = new Jhon()
+let test2: HumanOrCar<Car> = new Lamborgini()
+
+// function getCarOrHuman<HumanOrCar>(something: HumanOrCar): HumanOrCar extends Human ? Human : Car {
+//     return something
+// }
+//
+// const t = getCarOrHuman(jhon)
+// const t1 = getCarOrHuman(lamborgini)
+//
+// console.log(t)
+// console.log(t1)
 
 
 
 
 
 
+
+
+
+
+
+
+console.log("\n----------------------------------\n")
+
+
+
+
+
+
+
+
+
+
+
+function iterate(n: number, f: (a: number) => number, x: number): number {
+    if (n == 0) {
+        return x
+    }
+    return iterate(n - 1, f, f(x))
+}
+const square = (x: number) => x * x
+
+const result = iterate(1, square, 3)
+console.log('result')
+console.log(result)
 
 
 

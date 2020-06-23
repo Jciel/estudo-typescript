@@ -122,10 +122,69 @@ console.log("----------------------");
 var alaska = new Point2D();
 var eua = new Point2D();
 var brazil = new Point2D();
-var X = {
+var Locals = {
     "Alaska": alaska,
-    "eua": alaska,
-    "brazil": alaska
+    "eua": eua,
+    "brazil": brazil,
 };
-console.log(X);
-console.log(X.brazil);
+console.log(Locals);
+console.log(Locals.brazil);
+console.log("-------------------------");
+var Human = /** @class */ (function () {
+    function Human() {
+        this.locomotionMechanisms = "Foot";
+    }
+    return Human;
+}());
+var Car = /** @class */ (function () {
+    function Car() {
+        this.locomotionMechanisms = "Wheels";
+    }
+    return Car;
+}());
+var Jhon = /** @class */ (function (_super) {
+    __extends(Jhon, _super);
+    function Jhon() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Jhon;
+}(Human));
+var Lamborgini = /** @class */ (function (_super) {
+    __extends(Lamborgini, _super);
+    function Lamborgini() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Lamborgini;
+}(Car));
+var Test = /** @class */ (function () {
+    function Test() {
+    }
+    return Test;
+}());
+var jhon = new Jhon();
+var lamborgini = new Lamborgini();
+var test = new Test();
+function getCarOrHuman(something) {
+    console.log('typeof something');
+    console.log(typeof something);
+    // @ts-ignore
+    return something;
+}
+var t = getCarOrHuman(jhon);
+var t1 = getCarOrHuman(lamborgini);
+var t2 = getCarOrHuman("lamborgini");
+console.log(t);
+console.log(t1);
+console.log(t2);
+console.log("\n----------------------------------\n");
+function iterate(n, f, x) {
+    if (n == 0) {
+        return x;
+    }
+    return iterate(n - 1, f, f(x));
+}
+var square = function (x) { return x * x; };
+var result = iterate(1, square, 3);
+console.log('result');
+console.log(result);
+//# sourceMappingURL=Main.js.map
