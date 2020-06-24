@@ -35,7 +35,7 @@ f1(c2)
 f1(e)
 
 
-console.log("----------------------")
+console.log("\n----------------------------------\n")
 
 
 
@@ -84,7 +84,7 @@ testPoint2d(point3d) // OK - estructural check
 testPoint3d(point3d) // OK
 
 
-console.log("----------------------")
+console.log("\n----------------------------------\n")
 
 // Records
 
@@ -101,7 +101,8 @@ const Locals: Record<string, Point2D> = {
 console.log(Locals)
 console.log(Locals.brazil)
 
-console.log("-------------------------")
+
+console.log("\n----------------------------------\n")
 
 
 
@@ -122,28 +123,69 @@ type HumanOrCar<T> = T extends Human ? Human : Car
 let test: HumanOrCar<Human> = new Jhon()
 let test2: HumanOrCar<Car> = new Lamborgini()
 
-// function getCarOrHuman<HumanOrCar>(something: HumanOrCar): HumanOrCar extends Human ? Human : Car {
-//     return something
-// }
-//
-// const t = getCarOrHuman(jhon)
-// const t1 = getCarOrHuman(lamborgini)
-//
-// console.log(t)
-// console.log(t1)
+
+console.log("\n----------------------------------\n")
 
 
+interface Maybe<T> {
+    getValue(): T | void
+}
 
+class Some<T> implements Maybe<T> {
+    constructor(private value: T) {}
+    getValue(): T | void { return this.value }
+}
 
+class None<T> implements Maybe<T> {
+    getValue(): T | void { return }
+}
 
+function Maybe<T>(value?: T): Maybe<T> {
+    return (typeof value === "undefined" || value === null) ? new None() : new Some(value)
+}
 
+const aa: Maybe<string> = Maybe("aa")
+const aab: Maybe<string> = Maybe()
 
-
+console.log(aa) // Some {value: "aa"}
+console.log(aa.getValue()) // aa
+console.log(aab) // None {}
 
 
 
 
 console.log("\n----------------------------------\n")
+
+
+
+type CardType =
+      "Visa"
+    | "MasterCard"
+
+type Currency =
+      "BRL"
+    | "USD"
+
+type CredCardInfo = {
+    cardType: CardType
+    number: number
+}
+
+type PaymentMethod =
+      "Cash"
+    | "Paypal"
+    | "Card"
+
+type Payment = {
+    currency: Currency
+    method: PaymentMethod
+    cardInfo: CredCardInfo
+}
+
+
+
+console.log("\n----------------------------------\n")
+
 
 
 

@@ -125,20 +125,20 @@ var brazil = new Point2D();
 var Locals = {
     "Alaska": alaska,
     "eua": eua,
-    "brazil": brazil,
+    "brazil": brazil
 };
 console.log(Locals);
 console.log(Locals.brazil);
 console.log("-------------------------");
 var Human = /** @class */ (function () {
     function Human() {
-        this.locomotionMechanisms = "Foot";
+        this.a = "Foot";
     }
     return Human;
 }());
 var Car = /** @class */ (function () {
     function Car() {
-        this.locomotionMechanisms = "Wheels";
+        this.b = "Wheels";
     }
     return Car;
 }());
@@ -163,19 +163,10 @@ var Test = /** @class */ (function () {
 }());
 var jhon = new Jhon();
 var lamborgini = new Lamborgini();
-var test = new Test();
-function getCarOrHuman(something) {
-    console.log('typeof something');
-    console.log(typeof something);
-    // @ts-ignore
-    return something;
-}
-var t = getCarOrHuman(jhon);
-var t1 = getCarOrHuman(lamborgini);
-var t2 = getCarOrHuman("lamborgini");
-console.log(t);
-console.log(t1);
-console.log(t2);
+var test = new Jhon();
+var test2 = new Lamborgini();
+var aaa;
+console.log("\n----------------------------------\n");
 console.log("\n----------------------------------\n");
 function iterate(n, f, x) {
     if (n == 0) {
@@ -187,4 +178,3 @@ var square = function (x) { return x * x; };
 var result = iterate(1, square, 3);
 console.log('result');
 console.log(result);
-//# sourceMappingURL=Main.js.map
