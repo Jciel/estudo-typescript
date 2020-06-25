@@ -221,6 +221,12 @@ type Maybe<T> =
     | None<T>
     | Some<T>
 
+type IMaybe<T> = {
+    getValue(): T | void
+    map(f: (t: T) => T):  Maybe<T>
+    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T>
+}
+
 
 class Some<T> {
     constructor(private value: T) {}
