@@ -127,31 +127,121 @@ let test2: HumanOrCar<Car> = new Lamborgini()
 console.log("\n----------------------------------\n")
 
 
-interface Maybe<T> {
-    getValue(): T | void
-}
+// function Maybe<T>(value?: T): Maybe<T> {
+//     if (typeof value === "undefined" || value === null) {
+//         return new None()
+//     } else {
+//         return new Some(value)
+//     }
+// }
+//
+// interface Maybe<T> {
+//     getValue(): T | void
+//     map(f: (t: T) => X): Maybe<X>
+//     // matchWith(pattern: { Some: (value: T) => B, None: () => B }): Maybe<B>
+//     // matchWith(pattern: { Some: (value: T) => B, None: () => B }): Maybe<B>
+// }
+//
+// class Some<T> implements Maybe<T> {
+//     constructor(private value: T) {}
+//     getValue(): T | void { return this.value }
+//     map(f: (t: T) =>  Maybe<A>):  Maybe<A> { return f(this.value) }
+//     // matchWith(pattern: { Some: (value: T) => B, None: () => B }) {
+//     //     return Maybe(pattern.Some(this.value))
+//     // }
+// }
+//
+// class None<T> implements Maybe<T> {
+//     getValue(): T | void { return }
+//     map(f: (t: T) =>  Maybe<A>):  Maybe<A> { return Maybe() }
+//     // matchWith(pattern: { Some: (value: T) => B, None: () => B }) {
+//     //     return Maybe(pattern.None())
+//     // }
+// }
+//
+//
+// const aa: Maybe<string> = Maybe("aa")
+// const aab: Maybe<string> = Maybe()
+//
+// console.log(aa) // Some { value: "aa" }
+// console.log(aa.getValue()) // aa
+// console.log(aab) // None {}
+//
+// function procesSomeMaybe(param: Maybe<string>) {
+//     if (param instanceof Some) {
+//         console.log(param.getValue())
+//     }
+//
+//     if (param instanceof None) {
+//         console.log("não tem nada")
+//     }
+// }
+//
+// procesSomeMaybe(aa)
+// procesSomeMaybe(aab)
+//
+// function testMap(param: Maybe<string>) {
+//     const hh = param.map((d: string) => {
+//         return Maybe<number>(5)
+//     })
+//
+//     console.log('------hh-------')
+//     console.log(hh)
+// }
+// testMap(aa)
+// testMap(aab)
+//
+//
+// function testMatchWith(param: Maybe<string>) {
+//
+//     let ff = param.matchWith({
+//         Some: (value: string) => {
+//             console.log('value')
+//             console.log(value)
+//             return value
+//         },
+//
+//         None: (): void => {
+//             console.log('none')
+//             return
+//         }
+//     })
+//
+//     console.log('------aaaaaaa-------')
+//
+//
+//     console.log('ff')
+//     console.log(ff)
+//
+// }
+// testMatchWith(aa)
+// testMatchWith(aab)
 
-class Some<T> implements Maybe<T> {
+type Maybe<T> =
+    | None<T>
+    | Some<T>
+
+
+class Some<T> {
     constructor(private value: T) {}
     getValue(): T | void { return this.value }
+    map(f: (t: T) =>  T): Maybe<T> { return new Some(f(this.value)) }
+    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+        return new Some(pattern.Some(this.value))
+    }
 }
 
-class None<T> implements Maybe<T> {
+class None<T> {
     getValue(): T | void { return }
+    map(f: (t: T) => T):  Maybe<T> { return new None() }
+    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+        const v = pattern.None()
+        if (typeof v === "undefined" || v === null) {
+            return new None()
+        }
+        return new Some(v)
+    }
 }
-
-function Maybe<T>(value?: T): Maybe<T> {
-    return (typeof value === "undefined" || value === null) ? new None() : new Some(value)
-}
-
-const aa: Maybe<string> = Maybe("aa")
-const aab: Maybe<string> = Maybe()
-
-console.log(aa) // Some {value: "aa"}
-console.log(aa.getValue()) // aa
-console.log(aab) // None {}
-
-
 
 
 console.log("\n----------------------------------\n")

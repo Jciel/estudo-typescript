@@ -80,7 +80,7 @@ var c2 = new C2();
 var e = new E();
 f1(c2);
 f1(e);
-console.log("----------------------");
+console.log("\n----------------------------------\n");
 // Union types
 var Point2D = /** @class */ (function () {
     function Point2D() {
@@ -117,7 +117,7 @@ testPoint2d(point2d); // OK
 testPoint2d(point3d); // OK - estructural check
 // testPoint3d(point2d) // Error
 testPoint3d(point3d); // OK
-console.log("----------------------");
+console.log("\n----------------------------------\n");
 // Records
 var alaska = new Point2D();
 var eua = new Point2D();
@@ -129,7 +129,7 @@ var Locals = {
 };
 console.log(Locals);
 console.log(Locals.brazil);
-console.log("-------------------------");
+console.log("\n----------------------------------\n");
 var Human = /** @class */ (function () {
     function Human() {
         this.a = "Foot";
@@ -165,7 +165,84 @@ var jhon = new Jhon();
 var lamborgini = new Lamborgini();
 var test = new Jhon();
 var test2 = new Lamborgini();
-var aaa;
+console.log("\n----------------------------------\n");
+function Maybe(value) {
+    if (typeof value === "undefined" || value === null) {
+        return new None();
+    }
+    else {
+        return new Some(value);
+    }
+}
+var Some = /** @class */ (function () {
+    function Some(value) {
+        this.value = value;
+    }
+    Some.prototype.getValue = function () { return this.value; };
+    Some.prototype.map = function (f) { return Maybe(f(this.value)); };
+    Some.prototype.matchWith = function (pattern) {
+        return Maybe(pattern.Some(this.value));
+    };
+    return Some;
+}());
+var None = /** @class */ (function () {
+    function None() {
+    }
+    None.prototype.getValue = function () { return; };
+    None.prototype.map = function (f) { return Maybe(); };
+    None.prototype.matchWith = function (pattern) {
+        return Maybe(pattern.None());
+    };
+    return None;
+}());
+var aa = Maybe("aa");
+var aab = Maybe();
+console.log(aa); // Some { value: "aa" }
+console.log(aa.getValue()); // aa
+console.log(aab); // None {}
+function procesSomeMaybe(param) {
+    if (param instanceof Some) {
+        console.log(param.getValue());
+    }
+    if (param instanceof None) {
+        console.log("não tem nada");
+    }
+}
+procesSomeMaybe(aa);
+procesSomeMaybe(aab);
+function testMap(param) {
+    var hh = param.map(function (d) {
+        return 5;
+    });
+    console.log('------hh-------');
+    console.log(hh);
+}
+testMap(aa);
+testMap(aab);
+// function testMatchWith(param: Maybe<string>) {
+//
+//     let ff = param.matchWith({
+//         Some: (value: string) => {
+//             console.log('value')
+//             console.log(value)
+//             return value
+//         },
+//
+//         None: (): void => {
+//             console.log('none')
+//             return
+//         }
+//     })
+//
+//     console.log('------aaaaaaa-------')
+//
+//
+//     console.log('ff')
+//     console.log(ff)
+//
+// }
+// testMatchWith(aa)
+// testMatchWith(aab)
 console.log("\n----------------------------------\n");
 console.log("\n----------------------------------\n");
 function iterate(n, f, x) {
