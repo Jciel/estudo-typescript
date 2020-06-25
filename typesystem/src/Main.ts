@@ -217,22 +217,23 @@ console.log("\n----------------------------------\n")
 // testMatchWith(aa)
 // testMatchWith(aab)
 
+
+
+// type IMaybe<T> = {
+//     getValue(): T | void
+//     map(f: (t: T) => T):  Maybe<T>
+//     matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T>
+// }
+
 type Maybe<T> =
     | None<T>
     | Some<T>
-
-type IMaybe<T> = {
-    getValue(): T | void
-    map(f: (t: T) => T):  Maybe<T>
-    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T>
-}
-
 
 class Some<T> {
     constructor(private value: T) {}
     getValue(): T | void { return this.value }
     map(f: (t: T) =>  T): Maybe<T> { return new Some(f(this.value)) }
-    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+    matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
         return new Some(pattern.Some(this.value))
     }
 }
@@ -240,14 +241,45 @@ class Some<T> {
 class None<T> {
     getValue(): T | void { return }
     map(f: (t: T) => T):  Maybe<T> { return new None() }
-    matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+    matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
         const v = pattern.None()
         if (typeof v === "undefined" || v === null) {
-            return new None()
+            return new None<C>()
+        } else {
+            return new Some(v)
         }
-        return new Some(v)
     }
 }
+
+const aa: Maybe<string> = new Some("aa")
+const aab: Maybe<string> = new None()
+
+function testMatchWith(param: Maybe<string>) {
+    let ff = param.matchWith({
+        Some: (value: string) => {
+            console.log('Some')
+            console.log(value)
+            return 3
+        },
+
+        None: () => {
+            console.log('none')
+            return "adiciona uma string"
+        }
+    })
+
+    console.log('------aaaaaaa-------')
+
+    console.log('ff')
+    console.log(ff)
+
+}
+//testMatchWith(aa)
+testMatchWith(aab)
+
+const m: Maybe<string> = new Some("Maybe ")
+
+m.map(v => v.trim()).map(v => v.toUpperCase())
 
 
 console.log("\n----------------------------------\n")

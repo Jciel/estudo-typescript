@@ -3,12 +3,11 @@
 //     | None<T>
 //     | Some<T>
 //
-//
 // class Some<T> {
 //     constructor(private value: T) {}
 //     getValue(): T | void { return this.value }
 //     map(f: (t: T) =>  T): Maybe<T> { return new Some(f(this.value)) }
-//     matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+//     matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
 //         return new Some(pattern.Some(this.value))
 //     }
 // }
@@ -16,12 +15,13 @@
 // class None<T> {
 //     getValue(): T | void { return }
 //     map(f: (t: T) => T):  Maybe<T> { return new None() }
-//     matchWith(pattern: { Some: (value: T) => T, None: () => T | void }): Maybe<T> {
+//     matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
 //         const v = pattern.None()
 //         if (typeof v === "undefined" || v === null) {
-//             return new None()
+//             return new None<C>()
+//         } else {
+//             return new Some(v)
 //         }
-//         return new Some(v)
 //     }
 // }
 //
@@ -32,14 +32,14 @@
 // function testMatchWith(param: Maybe<string>) {
 //     let ff = param.matchWith({
 //         Some: (value: string) => {
-//             console.log('value')
+//             console.log('Some')
 //             console.log(value)
-//             return value
+//             return 3
 //         },
 //
-//         None: (): void => {
+//         None: () => {
 //             console.log('none')
-//             return
+//             return "adiciona uma string"
 //         }
 //     })
 //
@@ -49,5 +49,5 @@
 //     console.log(ff)
 //
 // }
-// // testMatchWith(aa)
+// //testMatchWith(aa)
 // testMatchWith(aab)
