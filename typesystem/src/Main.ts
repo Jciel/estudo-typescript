@@ -232,7 +232,7 @@ type Maybe<T> =
 class Some<T> {
     constructor(private value: T) {}
     getValue(): T | void { return this.value }
-    map(f: (t: T) =>  T): Maybe<T> { return new Some(f(this.value)) }
+    map<U>(f: (t: T) =>  U): Maybe<U> { return new Some(f(this.value)) }
     matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
         return new Some(pattern.Some(this.value))
     }
@@ -240,7 +240,7 @@ class Some<T> {
 
 class None<T> {
     getValue(): T | void { return }
-    map(f: (t: T) => T):  Maybe<T> { return new None() }
+    map<U>(f: (t: T) => U):  Maybe<U> { return new None() }
     matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
         const v = pattern.None()
         if (typeof v === "undefined" || v === null) {
